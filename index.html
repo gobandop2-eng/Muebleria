@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Muebleria| Catálogo</title>
+<title>EKA | Catálogo</title>
 <style>
 :root{--bg:#090909;--panel:#151515;--muted:#aaa;--line:#292929;--white:#f5f5f5;--accent:#d7b47a}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif}
@@ -20,6 +20,16 @@ section{padding:55px 6%}.section-head{display:flex;justify-content:space-between
 footer{padding:30px 6%;border-top:1px solid var(--line);color:#888;font-size:13px}
 .wa{position:fixed;right:22px;bottom:22px;background:#20c66b;color:#061b0d;border-radius:50px;padding:15px 20px;text-decoration:none;font-weight:bold;box-shadow:0 5px 25px #0008;z-index:8}
 .admin{margin:30px 6%;border:1px solid var(--line);padding:20px;background:#101010}.admin summary{cursor:pointer;color:var(--accent);font-weight:bold}.admin input,.admin textarea{background:#080808;color:white;border:1px solid #333;padding:10px;margin:5px;width:min(100%,320px)}.admin button{padding:10px 14px;background:var(--accent);border:0;cursor:pointer}
+.panel-entry{float:right;background:transparent;border:0;color:#777;font-size:11px;cursor:pointer;padding:4px 8px}
+.panel-entry:hover{color:var(--accent)}
+.login-backdrop{position:fixed;inset:0;background:#000b;z-index:30;display:grid;place-items:center;padding:18px}
+.login-backdrop[hidden],#adminPanel[hidden]{display:none!important}
+.login-card{position:relative;width:min(100%,360px);background:#151515;border:1px solid var(--accent);padding:28px;border-radius:8px;text-align:center;box-shadow:0 18px 60px #0009}
+.login-card h3{color:var(--accent);margin:0 0 8px}.login-card p{color:#aaa;font-size:13px}
+.login-card input{width:100%;padding:13px;background:#080808;color:white;border:1px solid #444;margin:12px 0}
+.login-accept{width:100%;padding:12px;background:var(--accent);border:0;font-weight:bold;cursor:pointer}
+.login-close{position:absolute;right:10px;top:8px;background:transparent;border:0;color:#aaa;font-size:23px;cursor:pointer}
+.login-error{min-height:18px;color:#ff8585;font-size:12px;margin-bottom:7px}
 @media(max-width:650px){header{padding:14px 5%}nav a{margin-left:10px;font-size:11px}.hero{padding:65px 6%}.section-head{display:block}}
 </style>
 </head>
@@ -28,12 +38,23 @@ footer{padding:30px 6%;border-top:1px solid var(--line);color:#888;font-size:13p
 <div class="hero"><div class="hero-inner"><div class="eyebrow">Diseño · comodidad · estilo</div><h1>Tu espacio,<br>tu estilo.</h1><p>Encuentra muebles y colchones pensados para acompañar tus momentos. Explora el catálogo, elige tu color y envía tu pedido directamente por WhatsApp.</p><a class="btn" href="#catalogo">EXPLORAR CATÁLOGO</a></div></div>
 <section id="catalogo"><div class="section-head"><div><div class="eyebrow">Colección EKA</div><h2>Productos destacados</h2><div class="muted">Selecciona el producto, el color y agrégalo a tu pedido.</div></div></div><div class="categories" id="categories"></div><div class="grid" id="products"></div><div class="cart" id="carrito"><h2>Mi pedido</h2><div id="cartitems" class="muted">Todavía no agregas productos.</div><div id="total" class="price"></div><button onclick="sendOrder()">Enviar pedido por WhatsApp</button></div></section>
 <section id="nosotros"><div class="eyebrow">Visítanos</div><h2>Estamos para ayudarte</h2><div class="info"><article><h3>Ubicación</h3><p id="address">Agrega aquí la dirección de EKA desde el panel de administración.</p><a id="maplink" href="#" target="_blank">Ver ubicación en Google Maps</a></article><article><h3>Horario de atención</h3><p id="hours">Configura aquí tus horarios de atención.</p></article><article><h3>Atención personalizada</h3><p>¿Tienes dudas sobre medidas, colores o disponibilidad? Escríbenos directamente.</p><a id="contactlink" href="#" target="_blank">Consultar por WhatsApp</a></article></div></section>
-<details class="admin"><summary>⚙ Panel de administración · Editar catálogo y datos del negocio</summary><p class="muted">Esta demostración guarda los cambios en este navegador. Para que los cambios se vean en otros dispositivos se necesita publicar la web con una base de datos.</p>
+<details class="admin" id="adminPanel" hidden><summary>⚙ Panel de administración · Editar catálogo y datos del negocio</summary><p class="muted">Esta demostración guarda los cambios en este navegador. Para que los cambios se vean en otros dispositivos se necesita publicar la web con una base de datos.</p>
 <h3>Datos del negocio</h3><input id="phone" placeholder="WhatsApp con código de país, ej. 5939..."><input id="addr" placeholder="Dirección del local"><input id="map" placeholder="Enlace de Google Maps"><input id="hrs" placeholder="Horario de atención"><button onclick="saveSettings()">Guardar datos</button>
 <h3>Agregar categoría</h3><input id="newcat" placeholder="Ej. Comedores"><button onclick="addCategory()">Agregar categoría</button>
 <h3>Agregar producto</h3><input id="pname" placeholder="Nombre del producto"><input id="pcat" placeholder="Categoría"><input id="pprice" type="number" placeholder="Precio"><input id="pcolors" placeholder="Colores separados por coma"><input id="pavail" placeholder="Disponibilidad"><input id="pimg" type="file" accept="image/*"><textarea id="pdesc" placeholder="Descripción"></textarea><button onclick="addProduct()">Guardar producto</button>
 </details>
-<footer>© EKA · Catálogo de muebles y colchones</footer><a class="wa" id="floatwa" href="#" target="_blank">WhatsApp</a>
+<footer>© EKA · Catálogo de muebles y colchones <button class="panel-entry" type="button" onclick="openAdminLogin()">Panel</button></footer>
+<a class="wa" id="floatwa" href="#" target="_blank">WhatsApp</a>
+<div class="login-backdrop" id="adminLogin" hidden>
+  <div class="login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <button class="login-close" type="button" aria-label="Cerrar" onclick="closeAdminLogin()">×</button>
+    <h3 id="loginTitle">Acceso al panel</h3>
+    <p>Ingresa la contraseña para continuar.</p>
+    <input id="adminPassword" type="password" placeholder="Contraseña" autocomplete="current-password">
+    <div id="loginError" class="login-error" aria-live="polite"></div>
+    <button class="login-accept" type="button" onclick="unlockAdmin()">Aceptar</button>
+  </div>
+</div>
 <script>
 const demo=[
 {name:"Sofá contemporáneo",cat:"Muebles",price:389,colors:["Gris","Beige","Negro"],avail:"Entrega según disponibilidad",desc:"Diseño cómodo y elegante para tu sala.",img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80"},
