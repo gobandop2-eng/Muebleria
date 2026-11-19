@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EKA | Catálogo</title>
+<style>
+:root{--bg:#090909;--panel:#151515;--muted:#aaa;--line:#292929;--white:#f5f5f5;--accent:#d7b47a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif}
+header{position:sticky;top:0;background:#090909ed;border-bottom:1px solid var(--line);z-index:5;padding:16px 6%;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:5px;font-size:24px}.logo{width:38px;height:38px;border:1px solid var(--accent);display:grid;place-items:center;color:var(--accent);font-size:18px;letter-spacing:0;transform:rotate(45deg)}.logo span{transform:rotate(-45deg)}
+nav a{color:#ddd;text-decoration:none;margin-left:24px;font-size:13px}
+.hero{padding:85px 7% 75px;background:radial-gradient(ellipse at 80% 20%,#302719 0,transparent 35%),linear-gradient(120deg,#111,#080808);min-height:390px;display:flex;align-items:center}
+.hero-inner{max-width:700px}.eyebrow{color:var(--accent);letter-spacing:4px;font-size:11px;text-transform:uppercase}.hero h1{font-size:clamp(42px,7vw,76px);line-height:1.02;margin:18px 0}.hero p{color:#bbb;line-height:1.7;max-width:540px}.btn{display:inline-block;background:var(--accent);color:#111;text-decoration:none;padding:14px 22px;font-weight:bold;border:0;cursor:pointer;margin-top:14px}
+section{padding:55px 6%}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:25px}.section-head h2{font-size:30px;margin:8px 0}.muted{color:var(--muted);font-size:14px}
+.categories{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 28px}.cat{border:1px solid var(--line);background:#111;color:#ddd;padding:10px 17px;cursor:pointer}.cat.active,.cat:hover{border-color:var(--accent);color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}.product{background:var(--panel);border:1px solid var(--line);overflow:hidden}.product img{width:100%;height:210px;object-fit:cover;background:#252525;display:block}.product-body{padding:17px}.product h3{margin:0 0 8px}.price{color:var(--accent);font-size:19px;font-weight:bold;margin:12px 0}.product select,.product input{background:#0b0b0b;color:white;border:1px solid #393939;padding:10px;width:100%;margin:5px 0 10px}.product button{width:100%;padding:12px;background:transparent;border:1px solid var(--accent);color:var(--accent);cursor:pointer}.product button:hover{background:var(--accent);color:#111}
+.avail{font-size:12px;color:#bbb;margin:5px 0 12px}.cart{background:#121212;border:1px solid var(--line);padding:22px;margin-top:28px}.cart-row{display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid var(--line);padding:10px 0;color:#ddd}.cart button{background:var(--accent);border:0;padding:13px 18px;font-weight:bold;cursor:pointer;margin-top:15px}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}.info article{padding:24px;background:var(--panel);border:1px solid var(--line)}.info h3{color:var(--accent)}.info a{color:var(--accent)}
+footer{padding:30px 6%;border-top:1px solid var(--line);color:#888;font-size:13px}
+.wa{position:fixed;right:22px;bottom:22px;background:#20c66b;color:#061b0d;border-radius:50px;padding:15px 20px;text-decoration:none;font-weight:bold;box-shadow:0 5px 25px #0008;z-index:8}
+.admin{margin:30px 6%;border:1px solid var(--line);padding:20px;background:#101010}.admin summary{cursor:pointer;color:var(--accent);font-weight:bold}.admin input,.admin textarea{background:#080808;color:white;border:1px solid #333;padding:10px;margin:5px;width:min(100%,320px)}.admin button{padding:10px 14px;background:var(--accent);border:0;cursor:pointer}
+@media(max-width:650px){header{padding:14px 5%}nav a{margin-left:10px;font-size:11px}.hero{padding:65px 6%}.section-head{display:block}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo"><span>E</span></div>EKA</div><nav><a href="#catalogo">Catálogo</a><a href="#nosotros">Ubicación</a><a href="#carrito">Mi pedido</a></nav></header>
+<div class="hero"><div class="hero-inner"><div class="eyebrow">Diseño · comodidad · estilo</div><h1>Tu espacio,<br>tu estilo.</h1><p>Encuentra muebles y colchones pensados para acompañar tus momentos. Explora el catálogo, elige tu color y envía tu pedido directamente por WhatsApp.</p><a class="btn" href="#catalogo">EXPLORAR CATÁLOGO</a></div></div>
+<section id="catalogo"><div class="section-head"><div><div class="eyebrow">Colección EKA</div><h2>Productos destacados</h2><div class="muted">Selecciona el producto, el color y agrégalo a tu pedido.</div></div></div><div class="categories" id="categories"></div><div class="grid" id="products"></div><div class="cart" id="carrito"><h2>Mi pedido</h2><div id="cartitems" class="muted">Todavía no agregas productos.</div><div id="total" class="price"></div><button onclick="sendOrder()">Enviar pedido por WhatsApp</button></div></section>
+<section id="nosotros"><div class="eyebrow">Visítanos</div><h2>Estamos para ayudarte</h2><div class="info"><article><h3>Ubicación</h3><p id="address">Agrega aquí la dirección de EKA desde el panel de administración.</p><a id="maplink" href="#" target="_blank">Ver ubicación en Google Maps</a></article><article><h3>Horario de atención</h3><p id="hours">Configura aquí tus horarios de atención.</p></article><article><h3>Atención personalizada</h3><p>¿Tienes dudas sobre medidas, colores o disponibilidad? Escríbenos directamente.</p><a id="contactlink" href="#" target="_blank">Consultar por WhatsApp</a></article></div></section>
+<details class="admin"><summary>⚙ Panel de administración · Editar catálogo y datos del negocio</summary><p class="muted">Esta demostración guarda los cambios en este navegador. Para que los cambios se vean en otros dispositivos se necesita publicar la web con una base de datos.</p>
+<h3>Datos del negocio</h3><input id="phone" placeholder="WhatsApp con código de país, ej. 5939..."><input id="addr" placeholder="Dirección del local"><input id="map" placeholder="Enlace de Google Maps"><input id="hrs" placeholder="Horario de atención"><button onclick="saveSettings()">Guardar datos</button>
+<h3>Agregar categoría</h3><input id="newcat" placeholder="Ej. Comedores"><button onclick="addCategory()">Agregar categoría</button>
+<h3>Agregar producto</h3><input id="pname" placeholder="Nombre del producto"><input id="pcat" placeholder="Categoría"><input id="pprice" type="number" placeholder="Precio"><input id="pcolors" placeholder="Colores separados por coma"><input id="pavail" placeholder="Disponibilidad"><input id="pimg" type="file" accept="image/*"><textarea id="pdesc" placeholder="Descripción"></textarea><button onclick="addProduct()">Guardar producto</button>
+</details>
+<footer>© EKA · Catálogo de muebles y colchones</footer><a class="wa" id="floatwa" href="#" target="_blank">WhatsApp</a>
+<script>
+const demo=[
+{name:"Sofá contemporáneo",cat:"Muebles",price:389,colors:["Gris","Beige","Negro"],avail:"Entrega según disponibilidad",desc:"Diseño cómodo y elegante para tu sala.",img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80"},
+{name:"Cama moderna",cat:"Muebles",price:420,colors:["Nogal","Blanco","Ceniza"],avail:"Fabricación bajo pedido",desc:"Estilo moderno para renovar tu dormitorio.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80"},
+{name:"Colchón confort",cat:"Colchones",price:199,colors:["Blanco"],avail:"Consultar disponibilidad",desc:"Comodidad y soporte para tu descanso.",img:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=80"}
+];
+let products=JSON.parse(localStorage.getItem("eka_products")||"null")||demo;
+let cats=JSON.parse(localStorage.getItem("eka_cats")||"null")||["Todos","Muebles","Colchones"];
+let cart=[];
+let settings=JSON.parse(localStorage.getItem("eka_settings")||"{}");
+function persist(){localStorage.setItem("eka_products",JSON.stringify(products));localStorage.setItem("eka_cats",JSON.stringify(cats))}
+function render(){
+ document.getElementById("categories").innerHTML=cats.map((c,i)=>`<button class="cat ${i===0?'active':''}" onclick="filterCat('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join("");
+ showProducts("Todos");
+}
+function showProducts(cat){document.getElementById("products").innerHTML=products.filter(p=>cat==="Todos"||p.cat===cat).map((p,i)=>`<article class="product"><img src="${p.img||'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80'}" alt="${p.name}"><div class="product-body"><h3>${p.name}</h3><div class="muted">${p.desc||""}</div><div class="price">$${Number(p.price).toFixed(2)}</div><label class="muted">Color</label><select id="color${i}">${(p.colors||["Único"]).map(c=>`<option>${c}</option>`).join("")}</select><div class="avail">${p.avail||"Consultar disponibilidad"}</div><button onclick="addToCart(${products.indexOf(p)},document.getElementById('color${i}').value)">Agregar al pedido</button></div></article>`).join("")||'<p class="muted">No hay productos en esta categoría todavía.</p>'}
+function filterCat(c,b){document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));b.classList.add("active");showProducts(c)}
+function addToCart(i,color){cart.push({...products[i],color});renderCart()}
+function renderCart(){let el=document.getElementById("cartitems");el.innerHTML=cart.length?cart.map((p,i)=>`<div class="cart-row"><span>${p.name} · ${p.color}</span><span>$${Number(p.price).toFixed(2)} <a href="#" onclick="cart.splice(${i},1);renderCart();return false" style="color:#d7b47a">Quitar</a></span></div>`).join(""):"Todavía no agregas productos.";document.getElementById("total").textContent=cart.length?"Total: $"+cart.reduce((s,p)=>s+Number(p.price),0).toFixed(2):""}
+function phone(){return (settings.phone||document.getElementById("phone").value||"").replace(/\D/g,"")}
+function sendOrder(){if(!cart.length){alert("Agrega al menos un producto.");return}let n=phone();if(!n){alert("Configura primero el WhatsApp en el panel de administración.");return}let lines=cart.map(p=>`• ${p.name} | Color: ${p.color} | $${p.price}`).join("\n");let msg=`Hola, EKA. Quiero realizar este pedido:\n${lines}\nTotal: $${cart.reduce((s,p)=>s+Number(p.price),0).toFixed(2)}`;window.open("https://wa.me/"+n+"?text="+encodeURIComponent(msg),"_blank")}
+function saveSettings(){settings={phone:document.getElementById("phone").value,address:document.getElementById("addr").value,map:document.getElementById("map").value,hours:document.getElementById("hrs").value};localStorage.setItem("eka_settings",JSON.stringify(settings));applySettings();alert("Datos guardados en este navegador.")}
+function applySettings(){document.getElementById("address").textContent=settings.address||"Agrega aquí la dirección de EKA desde el panel de administración.";document.getElementById("hours").textContent=settings.hours||"Configura aquí tus horarios de atención.";document.getElementById("maplink").href=settings.map||"#";let url=settings.phone?"https://wa.me/"+settings.phone.replace(/\D/g,""):"#";document.getElementById("contactlink").href=url;document.getElementById("floatwa").href=url;document.getElementById("phone").value=settings.phone||"";document.getElementById("addr").value=settings.address||"";document.getElementById("map").value=settings.map||"";document.getElementById("hrs").value=settings.hours||""}
+function addCategory(){let c=document.getElementById("newcat").value.trim();if(!c)return;if(!cats.includes(c))cats.push(c);persist();render();document.getElementById("newcat").value=""}
+function addProduct(){let name=document.getElementById("pname").value.trim(),price=Number(document.getElementById("pprice").value);if(!name||!price){alert("Ingresa al menos nombre y precio.");return}let file=document.getElementById("pimg").files[0];let save=img=>{products.push({name,cat:document.getElementById("pcat").value.trim()||"Muebles",price,colors:document.getElementById("pcolors").value.split(",").map(x=>x.trim()).filter(Boolean),avail:document.getElementById("pavail").value,desc:document.getElementById("pdesc").value,img});if(!cats.includes(products.at(-1).cat))cats.push(products.at(-1).cat);persist();render();alert("Producto agregado.");};if(file){if(file.size>1200000){alert("La imagen supera 1.2 MB. Usa una imagen más pequeña.");return}let r=new FileReader();r.onload=()=>save(r.result);r.readAsDataURL(file)}else save("")}
+render();applySettings();
+</script></body></html>
