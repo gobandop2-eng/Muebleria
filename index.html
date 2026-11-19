@@ -82,3 +82,28 @@ function addCategory(){let c=document.getElementById("newcat").value.trim();if(!
 function addProduct(){let name=document.getElementById("pname").value.trim(),price=Number(document.getElementById("pprice").value);if(!name||!price){alert("Ingresa al menos nombre y precio.");return}let file=document.getElementById("pimg").files[0];let save=img=>{products.push({name,cat:document.getElementById("pcat").value.trim()||"Muebles",price,colors:document.getElementById("pcolors").value.split(",").map(x=>x.trim()).filter(Boolean),avail:document.getElementById("pavail").value,desc:document.getElementById("pdesc").value,img});if(!cats.includes(products.at(-1).cat))cats.push(products.at(-1).cat);persist();render();alert("Producto agregado.");};if(file){if(file.size>1200000){alert("La imagen supera 1.2 MB. Usa una imagen más pequeña.");return}let r=new FileReader();r.onload=()=>save(r.result);r.readAsDataURL(file)}else save("")}
 render();applySettings();
 </script></body></html>
+const ADMIN_PASS = "EKA2026"; // Cambia aquí tu contraseña
+
+function openAdminLogin() {
+  document.getElementById("adminLogin").hidden = false;
+  document.getElementById("adminPassword").value = "";
+  document.getElementById("loginError").textContent = "";
+  document.getElementById("adminPassword").focus();
+}
+
+function closeAdminLogin() {
+  document.getElementById("adminLogin").hidden = true;
+  document.getElementById("loginError").textContent = "";
+}
+
+function unlockAdmin() {
+  const pass = document.getElementById("adminPassword").value;
+  if (pass === ADMIN_PASS) {
+    document.getElementById("adminPanel").hidden = false;
+    document.getElementById("adminPanel").open = true;
+    closeAdminLogin();
+  } else {
+    document.getElementById("loginError").textContent = "Contraseña incorrecta";
+    alert("Contraseña incorrecta");
+  }
+}
